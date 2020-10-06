@@ -19,10 +19,7 @@ import java.util.*
  * */
 class SaveImageToFileWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
     private val title = "처리된 이미지"
-    private val dateFormatter = SimpleDateFormat(
-            "yyyy.MM.dd 'at' HH:mm:ss z",
-            Locale.getDefault()
-    )
+    private val dateFormatter = SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss z", Locale.getDefault())
 
     override fun doWork(): Result {
         // Makes a notification when the work starts and slows down the work so that

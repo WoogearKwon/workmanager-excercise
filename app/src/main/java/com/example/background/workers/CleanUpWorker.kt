@@ -24,12 +24,9 @@ class CleanUpWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params
 
             if (outputDirectory.exists()) {
                 val entries = outputDirectory.listFiles()
-
                 if (entries != null) {
-
                     for (entry in entries) {
                         val name = entry.name
-
                         if (name.isNotEmpty() && name.endsWith(".png")) {
                             val deleted = entry.delete()
                             Timber.i("$name 파일을 삭제함 - $deleted")

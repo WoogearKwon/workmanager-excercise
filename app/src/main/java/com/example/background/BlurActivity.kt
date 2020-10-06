@@ -70,11 +70,10 @@ class BlurActivity : AppCompatActivity() {
     }
 
     private val blurLevel: Int
-        get() =
-            when (binding.radioBlurGroup.checkedRadioButtonId) {
-                R.id.radio_blur_lv_1 -> 1
-                R.id.radio_blur_lv_2 -> 2
-                R.id.radio_blur_lv_3 -> 3
-                else -> 1
-            }
+        get() = when (binding.radioBlurGroup.checkedRadioButtonId) {
+            R.id.radio_blur_lv_1 -> 1
+            R.id.radio_blur_lv_2 -> 2
+            R.id.radio_blur_lv_3 -> 3
+            else -> 1
+        }
 }
