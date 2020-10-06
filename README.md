@@ -53,6 +53,8 @@ if you don't already have it.
 2. Import the sample into Android Studio.
 3. Build and run the sample.
 
+code lab: https://codelabs.developers.google.com/codelabs/android-workmanager/#0
+
 License
 -------
 
