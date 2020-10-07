@@ -16,6 +16,7 @@
 
 package com.example.background
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.work.WorkInfo
 import com.bumptech.glide.Glide
 import com.example.background.databinding.ActivityBlurBinding
+import timber.log.Timber
 
 class BlurActivity : AppCompatActivity() {
 
@@ -46,6 +48,12 @@ class BlurActivity : AppCompatActivity() {
         }
 
         binding.goButton.setOnClickListener { viewModel.applyBlur(blurLevel) }
+        binding.seeFileButton.setOnClickListener {
+            viewModel.outputUri?.let { currentUri ->
+                val actionView = Intent(Intent.ACTION_VIEW, currentUri)
+                actionView.resolveActivity(packageManager)?.run { startActivity(actionView) }
+            }
+        }
 
         viewModel.outputWorkInfos.observe(this, workInfosObserver())
     }
@@ -64,8 +72,23 @@ class BlurActivity : AppCompatActivity() {
             // Every continuation has only one worker tagged TAG_OUTPUT
             val workInfo = listOfWorkInfo[0]
 
-            if (workInfo.state.isFinished) showWorkFinished()
-            else showWorkInProgress()
+            if (workInfo.state.isFinished) {
+                showWorkFinished()
+
+                // Normally this processing, which is not directly related to drawing views on
+                // screen would be in the viewModel. For simplicity we are keeping it here.
+                val outputImageUri = workInfo.outputData.getString(KEY_IMAGE_URI)
+
+                // If there is an output file show "See File" button
+                if (!outputImageUri.isNullOrEmpty()) {
+                    viewModel.setOutputUri(outputImageUri as String)
+                    binding.seeFileButton.visibility = View.VISIBLE
+                    Timber.d("woogear ;;; outputImageUri = $outputImageUri")
+                } else {
+                    Timber.d("woogear ;;; outputImageUri = null")
+                }
+
+            } else showWorkInProgress()
         }
     }
 
