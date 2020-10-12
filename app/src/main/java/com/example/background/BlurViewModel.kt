@@ -49,8 +49,14 @@ class BlurViewModel(application: Application) : AndroidViewModel(application) {
             continuation = continuation.then(blurBuilder.build())
         }
 
+        // Create charging constraint
+        val constraints = Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .build()
+
         // Tag your work using the String key TAG_OUTPUT
         val save = OneTimeWorkRequestBuilder<SaveImageToFileWorker>()
+                .setConstraints(constraints)
                 .addTag(TAG_OUTPUT)
                 .build()
 
