@@ -16,8 +16,8 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
     override fun doWork(): Result {
         val appContext = applicationContext
         val resourceUri = inputData.getString(KEY_IMAGE_URI)
-        makeStatusNotification("이미지 처리 중...", appContext);
 
+        makeStatusNotification("이미지 처리 중...", appContext);
         sleepForBlur()
 
         return try {
@@ -33,9 +33,7 @@ class BlurWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params) {
 
             // Write bitmap to a temp file
             val outputUri = writeBitmapToFile(appContext, output)
-
             val outputData = workDataOf(KEY_IMAGE_URI to outputUri.toString())
-            makeStatusNotification("결과: $outputUri", appContext)
 
             Result.success(outputData)
 
