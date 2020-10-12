@@ -8,7 +8,6 @@ import androidx.work.*
 import com.example.background.workers.BlurWorker
 import com.example.background.workers.CleanUpWorker
 import com.example.background.workers.SaveImageToFileWorker
-import com.example.background.workers.blurBitmap
 
 
 class BlurViewModel(application: Application) : AndroidViewModel(application) {
@@ -90,5 +89,9 @@ class BlurViewModel(application: Application) : AndroidViewModel(application) {
 
     internal fun setOutputUri(outputImageUri: String?) {
         outputUri = uriOrNull(outputImageUri)
+    }
+
+    internal fun cancelWork() {
+        workManager.cancelUniqueWork(IMAGE_MANIPULATION_WORK_NAME)
     }
 }

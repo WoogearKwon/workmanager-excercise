@@ -18,6 +18,7 @@ package com.example.background
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -48,12 +49,15 @@ class BlurActivity : AppCompatActivity() {
         }
 
         binding.goButton.setOnClickListener { viewModel.applyBlur(blurLevel) }
+
         binding.seeFileButton.setOnClickListener {
             viewModel.outputUri?.let { currentUri ->
                 val actionView = Intent(Intent.ACTION_VIEW, currentUri)
                 actionView.resolveActivity(packageManager)?.run { startActivity(actionView) }
             }
         }
+
+        binding.cancelButton.setOnClickListener { viewModel.cancelWork()}
 
         viewModel.outputWorkInfos.observe(this, workInfosObserver())
     }
@@ -83,9 +87,6 @@ class BlurActivity : AppCompatActivity() {
                 if (!outputImageUri.isNullOrEmpty()) {
                     viewModel.setOutputUri(outputImageUri as String)
                     binding.seeFileButton.visibility = View.VISIBLE
-                    Timber.d("woogear ;;; outputImageUri = $outputImageUri")
-                } else {
-                    Timber.d("woogear ;;; outputImageUri = null")
                 }
 
             } else showWorkInProgress()
